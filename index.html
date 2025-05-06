@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Conversor de Sistemas Numéricos</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <div class="contenedor">
+    <h2>Conversor de Sistemas Numéricos</h2>
+    <h3>Por Jose Manuel Jaramillo Valencia, Recuperación primer examen</h3>
+
+    <label for="numeroEntrada">Número:</label>
+    <input type="text" id="numeroEntrada" placeholder="Ej: 1010 o A3">
+
+    <label for="baseEntrada">Base del número ingresado:</label>
+    <select id="baseEntrada">
+      <option value="2">Binario</option>
+      <option value="8">Octal</option>
+      <option value="10" selected>Decimal</option>
+      <option value="16">Hexadecimal</option>
+    </select>
+
+    <div class="resultados" id="resultado">
+      <p><strong>Decimal:</strong> <span id="salidaDecimal">-</span></p>
+      <p><strong>Binario:</strong> <span id="salidaBinario">-</span></p>
+      <p><strong>Octal:</strong> <span id="salidaOctal">-</span></p>
+      <p><strong>Hexadecimal:</strong> <span id="salidaHexadecimal">-</span></p>
+    </div>
+  </div>
+  <script src="assets/script.js"></script>
+</body>
+</html>
