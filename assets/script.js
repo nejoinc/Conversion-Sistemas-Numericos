@@ -1,31 +1,66 @@
-console.log("funciona?")
 const entradaNumero = document.getElementById("numeroEntrada");
 const entradaBase = document.getElementById("baseEntrada");
+
 const salidaDecimal = document.getElementById("salidaDecimal");
 const salidaBinario = document.getElementById("salidaBinario");
 const salidaOctal = document.getElementById("salidaOctal");
 const salidaHexadecimal = document.getElementById("salidaHexadecimal");
 
-function convertirNumero() {
-    const valorIngresado = entradaNumero.value.trim().toUpperCase();
-    const baseSeleccionada = parseInt(entradaBase.value);
-    let numero;
+entradaNumero.addEventListener("input", convertir);
+entradaBase.addEventListener("change", convertir);
 
-    try {
-        numero = parseInt(valorIngresado, baseSeleccionada);
-        if (isNaN(numero)) throw "Entrada inválida";
-        
-        salidaDecimal.textContent = numero;
-        salidaBinario.textContent = numero.toString(2);
-        salidaOctal.textContent = numero.toString(8);
-        salidaHexadecimal.textContent = numero.toString(16).toUpperCase();
-    } catch {
-        salidaDecimal.textContent =
-        salidaBinario.textContent =
-        salidaOctal.textContent =
-        salidaHexadecimal.textContent = "Entrada inválida";
-    }
+function convertir() {
+  const valor = entradaNumero.value.trim().toUpperCase();
+  const base = parseInt(entradaBase.value);
+
+  let decimal = convertirAdecimal(valor, base);
+  if (isNaN(decimal)) {
+    mostrarError();
+    return;
+  }
+
+  salidaDecimal.textContent = decimal;
+  salidaBinario.textContent = convertirDesdeDecimal(decimal, 2);
+  salidaOctal.textContent = convertirDesdeDecimal(decimal, 8);
+  salidaHexadecimal.textContent = convertirDesdeDecimal(decimal, 16);
 }
 
-entradaNumero.addEventListener("input", convertirNumero);
-entradaBase.addEventListener("change", convertirNumero);
+function mostrarError() {
+  salidaDecimal.textContent =
+  salidaBinario.textContent =
+  salidaOctal.textContent =
+  salidaHexadecimal.textContent = "Entrada inválida";
+}
+
+// --- CONVERSIÓN A DECIMAL MANUAL ---
+function convertirAdecimal(cadena, base) {
+  const digitos = "0123456789ABCDEF";
+  let decimal = 0;
+  let potencia = cadena.length - 1;
+
+  for (let i = 0; i < cadena.length; i++) {
+    let caracter = cadena[i];
+    let valor = digitos.indexOf(caracter);
+    if (valor === -1 || valor >= base) return NaN;
+
+    decimal += valor * Math.pow(base, potencia);
+    potencia--;
+  }
+
+  return decimal;
+}
+
+// --- CONVERSIÓN DESDE DECIMAL MANUAL ---
+function convertirDesdeDecimal(numero, base) {
+  const digitos = "0123456789ABCDEF";
+  if (numero === 0) return "0";
+  let resultado = "";
+
+  while (numero > 0) {
+    let residuo = numero % base;
+    resultado = digitos[residuo] + resultado;
+    numero = Math.floor(numero / base);
+  }
+
+  return resultado;
+}
